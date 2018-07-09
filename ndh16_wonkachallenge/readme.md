@@ -4,7 +4,7 @@ Le Wonka Challenge était proposé par la société Akerva pendant la NDH16 et f
 Ce challenge était réaliste, car il reproduisait le SI d'une société. Très intéressant pour apprendre les diverses techniques d'attaque des AD.  
 Il était composé de 7 étapes plus ou moins techniques, mais demandant à chaque fois de nouvelles attaques.  
 De plus, l'infrastructure mise en place était réinitialisée toutes les heures.
-Cela qui permettait d'évoluer tout en sachant que si une bêtise était faite, celle-ci ne pénaliserait pas les joueurs trop longtemps.
+Ca permettait d'évoluer tout en sachant que si une bêtise était faite, celle-ci ne pénaliserait pas les joueurs trop longtemps.
 
 ## Prêt ? Alors Go !
 
