@@ -10,7 +10,7 @@ Cela qui permettait d'évoluer tout en sachant que si une bêtise était faite, 
 
 Tout d'abord, on va lire les règles disponibles sur challenge.akerva.fr.
 
-![Règle du Wonka Challenge](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag1/rules.png)
+![Règle du Wonka Challenge](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/rules.png)
 
 On y apprend que l'on souhaite infiltrer la société Pramacorp.  
 Chance pour nous, un de nos contacts nous apprend qu'un ticket d'or (golden ticket) est à vendre sur le site willywonka.shop:4242 pour une filiale, pramafil.com, de Pramacorp.
@@ -23,11 +23,11 @@ Nous avons les cibles des deux premiers flags. Les flags sont situés à la raci
 
 On va sur le site de willywonka.shop
 
-![willywonka shop](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag1/shop.png)
+![willywonka shop](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/shop.png)
 
 En parcourant le site, on se rend compte que la seule page intéressante est la page d'upload, les autres étant des pages HTML classiques sans informations.
 
-![interface d'upload](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag1/upload_example.png)
+![interface d'upload](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/upload_example.png)
 
 On découvre donc un exemple de ce qui est attendu par le système. On télécharge l'archive pour ensuite l'extraire (j'ai testé unzip et ça a fonctionné de premiers coups).  
 Celle-ci est composée d’un fichier XML et un fichier kirbi (l'extension kirbi est l'extension pour les tickets Kerberos).
@@ -45,7 +45,7 @@ Contenu du fichier MANIFEST.xml :
 
 On rejoue l'exemple. L'archive et son contenu sont bien traités par le système, car la page de retour affiche le contenu du Manifest.
 
-![exemple de l'upload](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag1/upload_example.png)
+![exemple de l'upload](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/upload_example.png)
 
 Un fichier XML qui est traité par un système, tout indique une XXE. On aurait aussi pu penser à une XSS sur la plateforme de validation de l'administrateur.
 
@@ -129,7 +129,7 @@ C'est immédiat :
 
 * d29ua2F3b25rYXdvbmthaGFoYWhhX2lMT09PT09PT09PVkUK 
 
-![le flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag1/flag.png)
+![le flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/flag.png)
 
 Et voilà le flag de cette étape : `wonkawonkawonkahahaha_iLOOOOOOOOOVE`
 Première étape réalisée ! Le deuxième site web maintenant.
@@ -141,20 +141,20 @@ Première étape réalisée ! Le deuxième site web maintenant.
 Pramafil est une société dans la vente (scandaleuse soit dit en passant) d'objets en peau de phoque ! 
 * `http://pramafil.com/`  
 
-![pramafil](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag2/pramafil.png)
+![pramafil](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag2/pramafil.png)
 
 C'est un site one-page sans grand intérêt sauf, sauf (car il y a toujours un sauf) au niveau de ces CGU, (les phoques ce n'est pas très grave, mais quand même les CGU c'est important).  
 En effet, les CGU ne sont pas sur la one-page, mais sur une page à part. Voici son url: `http://pramafil.com/cgu/?v=2018`
 
 On tente une LFI sur le fichier /etc/passwd. Et ... et ... Jackpot, on a trouvé notre point d'entrée.
 
-![lfi](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag2/lfi_etc_passwd.png)
+![lfi](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag2/lfi_etc_passwd.png)
 
 ### Le flag
 
 Il ne reste plus qu'à afficher le flag.
 
-![le flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag2/flag.png)
+![le flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag2/flag.png)
 
 Et voilà le flag de cette étape : `@llez_le$_BLEU$!!!` 
 
@@ -1065,20 +1065,20 @@ J'ai utilisé Remina avec proxychains.
 
 Quand on arrive sur le le bureau distant, un navigateur est ouvert sur la page du top10 OWASP 2017. On remarque aussi d'autres onglets comme le guide de l'ANSSI sur les mots de passe, un onglet pour le site de keepass, putty.
 
-![onglets du navigateur](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/rdp.png)
+![onglets du navigateur](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/rdp.png)
 
 On n'hésite pas à faire un petit tour dans ces fichers. Le dossier systéme hosts est en favoris donc on regarde de plus prés son contenu pour en comprendre plus sur l'architecture réseau même si cela ne nous servira pas beaucoup par la suite.
 
-![dossiers](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/dossiers.png)  
-![hosts](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/hosts.png)
+![dossiers](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/dossiers.png)  
+![hosts](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/hosts.png)
 
 On récupére un keepass dans le dossier des téléchargements. On lance un hydra, hascat, johntheripper avec un dictionnaire avec le nom de l'entreprise pramacorp et d'autres informations comme le nom d'utilisateurs, le tout combiné avec une liste des 1000 mots de passe les plus utilisés comme rockyou. Pendant ce temps, continuons de chercher d'autres informations.
 
 On vient de faire le tour de ces dossiers. Il faut retourner sur firefox pour en apprendre un peu plus. On va aller regarder les mots de passe stockés dans celui-ci (si on ne voit pas le truc, le site de l'ANSSI déconseille de garder les mots de passe dans les navigateurs, ce peut nous mettre sur la voie). A partir de ce moment là c'est du clikodrome pour le suite de l'étape.
 
-![firefox options](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/firefox_1.png)
-![firefox gestionnaire de mot de passe](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/firefox_2.png)
-![firefox flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag6/firefox_3.png)
+![firefox options](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/firefox_1.png)
+![firefox gestionnaire de mot de passe](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/firefox_2.png)
+![firefox flag](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag6/firefox_3.png)
 
 Et hop, on a les identifiants pour le site cible (http://pramafil.com:10080/MqIrT1g6h7PoKl0Aq1/index.php). L'adresse fut donnée en hint durant l'épreuve. Pour la récupérer sans le hint, il fallait obligatoirement craquer le keepass dont le mot de passe était Pramacorp123456.
 
@@ -1103,7 +1103,7 @@ $Headers = @{
 
 En vrai, j'ai scindé en 8 la commande sur les ID pour aller plus vite. L'écran c'est allumé au bout de 10 minutes. Ce n'est pas vraiment discret mais l'objectif est ici d'avoir le flag. Merci à l'équipe d'akerva d'avoir éteint l'écran ;)
 
-![flag final](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16/flag7/flag_7.png)
+![flag final](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag7/flag_7.png)
 
 Et le flag final est : #AkervaRecrute;-).  
 Pfffiou fini, on peut maintenant aller dormir :D
