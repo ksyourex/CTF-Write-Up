@@ -17,7 +17,7 @@ Chance pour nous, un de nos contacts nous apprend qu'un ticket d'or (golden tick
 Le ticket d'or est un fichier vous donnant tous les droits sur un active directory utilisant Kerberos.
 Nous avons les cibles des deux premiers flags. Les flags sont situés à la racine des serveurs dans le fichier flag.txt (c'était indiqué sur l'interface de validation des flags).
 
-## En route pour la chocolaterie (étape 1) 
+## En route pour la chocolaterie (flag 1) 
 
 ### Découverte du site
 
@@ -134,7 +134,7 @@ C'est immédiat :
 Et voilà le flag de cette étape : `wonkawonkawonkahahaha_iLOOOOOOOOOVE`
 Première étape réalisée ! Le deuxième site web maintenant.
 
-## Le commerce du phoque (étape 2) 
+## Le commerce du phoque (flag 2) 
 
 ### Découvert du site web
 
@@ -158,7 +158,7 @@ Il ne reste plus qu'à afficher le flag.
 
 Et voilà le flag de cette étape : `@llez_le$_BLEU$!!!` 
 
-## Infiltrer Pramafil en compromettant son Active Directory (étape 3)
+## Infiltrer Pramafil en compromettant son Active Directory (flag 3)
 
 A partir de cette étape, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
 
