@@ -844,7 +844,7 @@ UsersContainer                     : CN=Users,DC=pramacorp,DC=fr
 ```
 
 Utilisons le sid du domaine pramacorp.fr pour notre utilisateur krbtgt du sous-domaine. Mais avant tout il nous faut un groupe d'utilisateur à ajouter au SID.
-Pour tout les détails sur les SID, je vous conseil le ![support de Microsoft](https://support.microsoft.com/fr-fr/help/243330/well-known-security-identifiers-in-windows-operating-systems).
+Pour tout les détails sur les SID, je vous conseil le [support de Microsoft](https://support.microsoft.com/fr-fr/help/243330/well-known-security-identifiers-in-windows-operating-systems).
 Nous allons utiliser le SID suivant de cette forme : `S-1-5-21domain racine-519`
 
 On a plus qu'à créer le golden ticket avec le sid du domaine root :
