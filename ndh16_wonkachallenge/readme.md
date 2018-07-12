@@ -160,6 +160,8 @@ Et voilà le flag de cette étape : `@llez_le$_BLEU$!!!`
 
 ## Infiltrer Pramafil en compromettant son Active Directory (étape 3)
 
+A partir de cette étape, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
+
 Bon, un check des informations récupérées s'impose.  
 On possède un moyen sur les deux domaines pour récupérer des informations.  
 Le site du challenge nous indique que l'on doit récupérer le hash de l'adminstrateur:500 du domaine pramafil.corp 
@@ -392,7 +394,7 @@ Impacket v0.9.18-dev - Copyright 2002-2018 Core Security Technologies
 
 Et voilà, on a un ticket d'or tout ce qu'il y a de plus valide.
 
-## Proxychains et un peu de configuration
+### Proxychains et un peu de configuration
 
 Pour utiliser le proxy SOCKS créé précédemment, on va utiliser [proxychains](https://github.com/haad/proxychains). Certains préférons utiliser des solutions comme [Redsocks](https://github.com/darkk/redsocks). 
 
@@ -413,7 +415,7 @@ On configure son fichier hosts pour renseigner des noms de domaines et non pas l
 
 Et bien nous sommes fin prêts à infiltrer Pramafil.com
 
-## Metal Gear AD
+### Metal Gear AD
 
 J'ai utilisé les scripts impacket pour la suite. Metasploit fonctionnerait tout aussi bien.
 Les scripts exemples dans impacket peuvent utiliser un ticket d'or si on renseigne le ccache dans la variable d'environnement KRB5CCNAME :`export KRB5CCNAME=Administrator.ccache`
@@ -500,7 +502,9 @@ On a alors une liste de plein de compte avec leur hash NTLM associés (remarquer
 
 Et voilà le flag de cette étape : 568ec725---------------f30e38eec
 
-## Infiltration de la société mère par son sous-domaine 
+## Infiltration de la société mère par son sous-domaine (flag 4)
+
+Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
 
 Pour cette étape, j'ai principalement utilisé Metasploit et Empire.  
 
@@ -790,6 +794,8 @@ Et voilà le flag de cette étape : e65b41757ea496c2c60e82c05ba8b373.
 
 ## L'histoire d'un ticket (flag 5)
 
+Pour rappel, nous devons infiltrer le réseau interne de pramacorp. Pour ce faire, il y a plusieurs étapes. La premiére sera de récupérer un maximum de droits sur le domaine pramafil.corp (flag 3) puis ensuite compromettre le sous-domaine dev.pramacorp.fr (flag 4) pour enfin attaquer le domaine maitre pramacorp.fr (notre cible final, flag 5).
+
 On a le krbtgt du sous-domaine ad.pramacorp.fr, son SID en gros tout ce qu'il faut pour créer un ticket d'or.  
 Avec Windows, il existe le SID History qui permet à un utilisateur de changer de domaine en conservant les droits sur son ancien domaine.
 Récupérons le SID du domaine parent avec l'agent déployé sur l'ad.dev.pramacorp.fr.
@@ -852,6 +858,8 @@ On peut uploader un mimikatz sur le serveur cible et récupérer l'identifiant a
 Et voilà le flag de cette étape : 5a3a5e76a7f4ef645fc82118ab87b56c.
 
 ## Heureseument que les navigateurs sont là pour nous faciliter la vie (flag 6)
+
+Nous avonc compromis le domaine pramacorp.fr. Pour la suite de l'épreuve, nous devons allumer un écran (flag 7) mais avant tout récupérons un accés à la machine du développeur pour avoir un accé à une application qui nous donnera accés à l'écran.
 
 ### Un peu d'inventaire
 
